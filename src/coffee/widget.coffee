@@ -14,6 +14,7 @@ class NeatComplete.Widget extends NeatComplete.Dispatch
   # @return [NeatComplete.Widget] returns self for chaining
   #
   # @option options [Integer] max_results Maximum number of results to display (default 10).
+  # @option options [Integer] timeout Number of milliseconds to pause until calling services (default 400).
   # @option options [String] list_class CSS class of the rendered <code>ul</code> element (default 'nc_list').
   # @option options [String] item_class CSS class of each <code>li</code> for each result (default 'nc_item').
   # @option options [String] hover_class CSS class which gets applied to the highlighted <code>li</code> element (default 'nc_hover').
@@ -48,6 +49,7 @@ class NeatComplete.Widget extends NeatComplete.Dispatch
     empty_class : 'nc_empty'
     error_class : 'nc_error'
     position    : 'absolute'
+    timeout     : 400
     ignore_returns : true
 
   # Add a new service
@@ -137,7 +139,7 @@ class NeatComplete.Widget extends NeatComplete.Dispatch
         clearTimeout(@_timeout) if @_timeout?
         @_timeout = setTimeout(=>
           @_getSuggestions()
-        ,400)
+        , @options.timeout)
 
   # @private
   _onBlur: (e)=>
